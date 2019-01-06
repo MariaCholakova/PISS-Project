@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+    db-server:
+        container_name: db-server
+        build: ./db_server
+        networks:
+            - backend
+        environment:
+            - MYSQL_ROOT_PASSWORD = JustDance2018
+            - MYSQL_DATABASE: ${DB_NAME}
+            - MYSQL_USER: ${DB_USER}
+            - MYSQL_PASSWORD: ${DB_PASS}
+    
+    app-server:
+        container_name: app-server
+        build: ./app_server
+        networks:
+            - frontend
+            - backend
+        depends_on:
+            - db-server
+        environment:
+            - DB_NAME: ${DB_NAME}
+            - DB_USER: ${DB_USER}
+            - DB_PASS: ${DB_PASS}
+        ports:
+            - "8088:80"
+    
+    static-content:
+        container_name: static-content
+        build: ./static_content
+        networks:
+            - frontend
+        volumes:
+            - type:bind
+            source: ./static_content/fashionDays
+            target: /usr/local/apache2/htdocs/fashionDays
+        ports:
+            - "8080:80"
+      
+        
