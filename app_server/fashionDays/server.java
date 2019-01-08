@@ -1,6 +1,6 @@
 class Server{  
     public static void main(String[] args){  
-        System.out.println(System.getenv("METAGAME_DB_USER")); 
+        System.out.println(System.getenv("DB_USER")); 
         
         try{
             Thread.sleep(1000);
