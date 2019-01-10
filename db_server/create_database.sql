@@ -17,7 +17,8 @@ CREATE TABLE `products` (
   `count_available` INT NOT NULL DEFAULT 30,
   --`product_size` ENUM('x-small', 'small', 'medium', 'large', 'x-large'),
   `product_sex` ENUM('men', 'women'),
-  `product_description` VARCHAR(100) NOT NULL,
+  `description` VARCHAR(100) NOT NULL
+   PRIMARY KEY(`product_id`)
 ) sENGINE=InnoDB;
 
 CREATE TABLE `customers` (
@@ -26,7 +27,6 @@ CREATE TABLE `customers` (
   `cutomer_password` VARCHAR(20) NOT NULL,
   `address` VARCHAR(40) NOT NULL,
   `town` VARCHAR(40) NOT NULL,
-  `country` VARCHAR(40) NOT NULL,
   PRIMARY KEY(`cutomer_id`)
 ) ENGINE=InnoDB;
 
@@ -38,7 +38,7 @@ CREATE TABLE `product_in_carts` (
   `date_ordered` TIMESTAMP DEFAULT NULL,  --if the item has not been ordered, this field is null 
   PRIMARY KEY(`order_id`),
   FOREIGN KEY(`customer_id`) REFERENCES `customers`(`customer_id`),
-  FOREIGN KEY(`product_id`) REFERENCES `products`(`product_id`),
+  FOREIGN KEY(`product_id`) REFERENCES `products`(`product_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `product_names` (
@@ -53,7 +53,7 @@ INSERT INTO `product_names` (`name`) VALUES
 
 
 DELIMITER $
-DROP PROCEDURE IF EXISTS `populate_products` $$
+DROP PROCEDURE IF EXISTS `populate_products` $
 CREATE PROCEDURE populate_products(entries INT, sex NVARCHAR(5))
     BEGIN
         DECLARE pr INT DEFAULT 1;

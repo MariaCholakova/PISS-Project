@@ -7,10 +7,10 @@ services:
         networks:
             - backend
         environment:
-            - MYSQL_ROOT_PASSWORD = JustDance2018
-            - MYSQL_DATABASE: ${DB_NAME}
-            - MYSQL_USER: ${DB_USER}
-            - MYSQL_PASSWORD: ${DB_PASS}
+            - MYSQL_ROOT_PASSWORD=JustDance2018
+            - MYSQL_DATABASE:${DB_NAME}
+            - MYSQL_USER:${DB_USER}
+            - MYSQL_PASSWORD:${DB_PASS}
     
     app-server:
         container_name: app-server
@@ -20,12 +20,17 @@ services:
             - backend
         depends_on:
             - db-server
+        volumes:
+            - type: bind
+               source: ./app_server/fashionDays
+               target: /var/www/html/fashionDays
         environment:
-            - DB_NAME: ${DB_NAME}
-            - DB_USER: ${DB_USER}
-            - DB_PASS: ${DB_PASS}
+            - DB_NAME=${DB_NAME}
+            - DB_USER=${DB_USER}
+            - DB_PASS=${DB_PASS}
         ports:
             - "8088:80"
+        command: node /var/www/html/fashionDays/server.js
     
     static-content:
         container_name: static-content
@@ -33,10 +38,12 @@ services:
         networks:
             - frontend
         volumes:
-            - type:bind
+          - type: bind
             source: ./static_content/fashionDays
             target: /usr/local/apache2/htdocs/fashionDays
         ports:
             - "8080:80"
       
-        
+networks:
+  frontend:
+  backend:

@@ -1,7 +1,9 @@
-FROM java:8
-COPY ./fashionDays /var/www/java/fashionDays
-WORKDIR /var/www/java/fashionDays
-RUN javac *.java \ 
-    && jar cfm Server.jar manifest.txt *.class
-CMD ["java", "-jar", "Server.jar"]
+FROM node:8
+WORKDIR /var/www/html
+COPY package*.json ./
+RUN npm install \
+    && npm install mysql \
+    && npm install cors \
+    && npm install body-parser \
+    && npm install --save socket.io
 
