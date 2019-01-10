@@ -34,6 +34,30 @@ app.use(bodyParser.urlencoded({extended: true}));
 const server = app.listen(PORT);
 const io = require('socket.io')(server);
 
+
+var chatNamespace = io
+    .of('/chat')
+    .on('connection', function (socket) {
+        socket.on('message', async function(msg) {
+            const heyRegex = /^Hey.*/;
+            const byeRegex = /.*[b|B]ye.*/;
+            try {
+                if (msg.match(heyRegex)) {
+                    socket.emit('answer', "Hello there!");
+                }
+                else if (msg.match(byeRegex)) {
+                    socket.emit('answer', "See you soon!");
+                }
+                else {
+                    socket.emit('answer', "I don't know what you are talking about");
+                }
+            }
+            catch (err){
+                socket.emit(err);
+            }
+        });
+    });
+
 // create new customer
 app.post('/customer', async (req, res) => {
     var name = mysqlEscape(req.body.name);

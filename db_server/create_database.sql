@@ -43,7 +43,7 @@ CREATE TABLE `product_in_carts` (
 
 CREATE TABLE `product_names` (
    `productname_id` INT NOT NULL AUTO_INCREMENT,
-   `name` VARCHAR(40) NOT NULL,
+   `name` VARCHAR(40) NOT NULL
 ) ENGINE=InnoDB;
 
 INSERT INTO `product_names` (`name`) VALUES 
