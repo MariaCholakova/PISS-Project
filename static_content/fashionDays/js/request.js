@@ -24,4 +24,24 @@ function sendRequest(uri, method, parameters, callback) {
     sendRequest( '/customer' , 'POST', data , function showResponse(response){
         console.log(response);
     } ) ;
+
+
+	Example 3
+	sendRequest('/products', 'GET', {}, function showResponse(response){
+		console.log(response);
+	});
+
+
+    Example 4
+	sendRequest('/cart', 'PUT', {}, function showResponse(response){
+		console.log(response);
+	});
+
+	
+	Example 5
+	sendRequest('/cart', 'DELETE', {}, function showResponse(response){
+		console.log(response);
+	});
+
+});
 */
