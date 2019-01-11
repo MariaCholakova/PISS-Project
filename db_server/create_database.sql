@@ -1,10 +1,10 @@
-CREATE DATABASE fashiondb;
-USE fashiondb;
 
+CREATE DATABASE fashiondb;
 CREATE USER 'fashiondbuser'@'%' IDENTIFIED BY 'fashiondbpass';
 GRANT ALL PRIVILEGES ON fashiondb.* to 'fashiondbuser'@'%';
 FLUSH PRIVILEGES;
 
+USE fashiondb;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS procucts_in_carts;
@@ -28,17 +28,6 @@ CREATE TABLE  customers  (
 ) ENGINE=InnoDB;
 
 INSERT INTO customers (customer_name, customer_password, address, town) VALUES ("maria", "Asdf1", "Luben Karavelov 10", "Rogosh");
-
-CREATE TABLE  products_in_carts  (
-   order_id  INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   customer_id  INT NOT NULL,
-   product_id  INT NOT NULL,
-   quantity  INT NOT NULL,
-   date_ordered  TIMESTAMP DEFAULT NULL,
-   FOREIGN KEY (customer_id) REFERENCES  customers(customer_id),
-   FOREIGN KEY (product_id) REFERENCES  products(product_id)
-) ENGINE=InnoDB;
-
 
 INSERT INTO products (product_price, product_name, product_sex,  description) VALUES ( ROUND(RAND() *  200 +  1, 2), "jeans", "men", "dolce & gabbana jeans!" );
 INSERT INTO products (product_price, product_name, product_sex,  description) VALUES ( ROUND(RAND() *  200 +  1, 2), "jeans", "men", "Louis Vuitton jeans!" );           

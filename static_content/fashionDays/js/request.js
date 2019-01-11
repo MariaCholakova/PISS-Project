@@ -8,7 +8,17 @@ function sendRequest(uri, method, parameters, callback) {
         url: appServerAddress + uri,
         type: method,
         data: parameters,
-        success: callback
+        success: function (result) {
+            //no error
+            if (result[0] == 0) {
+                // handle the response with callback function
+                callback(result[1]);
+            }
+            else {
+                //alert the error
+                alert(result[1]);
+            }
+        }
     });
 } 
 

@@ -38,19 +38,30 @@ const io = require('socket.io')(server);
 //listen on every connection
 io.on('connection', (socket) => {
 	console.log('New user connected')
+	const heyRegex = /^Hey.*/;
+	const byeRegex = /.*[b|B]ye.*/;
 
 	//default username
 	socket.username = "Anonymous"
 
     //listen on change_username
     socket.on('change_username', (data) => {
-        socket.username = data.username
+        socket.username = data.username;
     })
 
     //listen on new_message
     socket.on('new_message', (data) => {
         //broadcast the new message
         io.sockets.emit('new_message', {message : data.message, username : socket.username});
+        if (data.message.match(heyRegex)) {
+        	io.sockets.emit('new_message', {message : "Hello there!", username : socket.username});
+        }
+        else if (data.message.match(byeRegex)) {
+            io.sockets.emit('new_message', {message : "See you soon!", username : socket.username});
+        }
+        else {
+            io.sockets.emit('new_message', {message : "I don't understand...", username : socket.username});
+        }
     })
 
     //listen on typing
@@ -63,34 +74,18 @@ io.on('connection', (socket) => {
  */
 
 
-/* var chatNamespace = io
-    .of('/chat')
-    .on('connection', function (socket) {
-        socket.on('message', async function(msg) {
-            const heyRegex = /^Hey.*/;
-          /* const byeRegex = /.*[b|B]ye.*/;
-            /* try {
-                if (msg.match(heyRegex)) {
-                    socket.emit('answer', "Hello there!");
-                }
-                else if (msg.match(byeRegex)) {
-                    socket.emit('answer', "See you soon!");
-                }
-                else {
-                    socket.emit('answer', "I don't know what you are talking about");
-                }
-            }
-            catch (err){
-                socket.emit(err);
-            }
-        });
-    }); */
 
+<<<<<<< HEAD
   
+=======
+app.post('/customer', async (req, res) => {
+    res.send("hey");
+});
+
+>>>>>>> f3aea556d8dc6b92347a0cf9c86444f2646aa90f
 //create new customer
 app.post('/customer', async (req, res) => {
-  
-     var name = mysqlEscape(req.body.name);
+    var name = mysqlEscape(req.body.name);
     var pass = mysqlEscape(req.body.password);
     try {
        
@@ -131,6 +126,10 @@ app.post('/product', async (req, res) => {
 //get products by sex - women or men
 app.get('/products',  async (req, res) =>{
     try{
+<<<<<<< HEAD
+=======
+        var sex = req.query.sex;
+>>>>>>> f3aea556d8dc6b92347a0cf9c86444f2646aa90f
         const resultProducts =  await pool.query(`SELECT * FROM products`);
         var products = [];
         for (pr of resultProducts){
