@@ -57,7 +57,7 @@ a>h1>span:last-child{
     width: 50px;
     height: 32px;
     font-size: 20px;
-    background-color:#9d0052;
+    background-color:#FFAAAA;
     border: none;
     color: white;
     cursor: pointer;      
@@ -246,7 +246,7 @@ footer>div{
     line-height: 2em;
     background-color:white;
     border:none;
-    border-bottom: 2px ridge #9d0052;
+    border-bottom: 2px ridge #FFAAAA;
 }
 
 #conditions{
@@ -258,7 +258,7 @@ footer>div{
 }
 
 #logIn, #register{
-    background-color: #9d2350;
+    background-color: #FFAAAA;
     padding: 2em;
     position: relative;
     width: 562px;
@@ -315,7 +315,7 @@ button{
     top: 200px;
     left: -1px;
     border: none;
-    background-color: #9d0052;
+    background-color: #FFAAAA;
     border-radius: 8%;
     width: 221px;
     height: 67px;
@@ -493,7 +493,7 @@ display:none;
     height: 30px;
 }
 #Card span, #Address span{
-    color: #9d0052;
+    color: #FFAAAA;
     cursor: pointer;
     font-size: 3em;
     position: relative;
@@ -611,7 +611,7 @@ display:none;
 
 #info button{
     border: none;
-    background-color: #9d0052;
+    background-color: #FFAAAA;
     border-radius: 8%;
     width: 120px;
     height: 60px;
@@ -670,7 +670,7 @@ display:none;
 #favTable button, #deleteAll{
     position: static;
     float:right;
-    background-color: #9d0052;
+    background-color: #FFAAAA;
     border-radius: 8%;
     width: 100px;
     height: 40px;
@@ -712,7 +712,7 @@ display:none;
     position: relative;
     top:0px;
     float:right;
-    background-color: #9d0052;
+    background-color: #FFAAAA;
     font-weight: bold;
     border-radius: 8%;
     width: 100px;
@@ -738,3 +738,19 @@ display:none;
 #cartTable .items {
     cursor: pointer;
 }
+
+.hidden{
+    display: none;
+}
+
+#chat:hover{
+    cursor: pointer;
+}
+
+#chatroom{
+    height:500px;
+    width:100%;
+    background:cornsilk;
+  }
+
+  

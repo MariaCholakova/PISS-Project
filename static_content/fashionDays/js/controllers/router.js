@@ -48,7 +48,7 @@ $(function () {
     window.addEventListener('hashchange', router);
     window.addEventListener('load', router);
     router();
-    searchController();
+   // searchController();
     //
     // $('#searchByTitle').on('click', function(){
     //     var title = $(this).parent().children().eq(0).val();
@@ -77,4 +77,3 @@ function itemsHash() {
     }
 
 }
-

@@ -1,6 +1,15 @@
 var productStorage = (function () {
     function ProductStorage() {
 
+
+        ProductStorage.prototype.getProducts=function(){
+            let deferred = $q.defer();
+            var promise = $http.get('/products').then(function (response) {
+                deferred.resolve(response.data);
+            });
+            return deferred.promise;
+        }
+/* 
     }
     var products = [];
     if (products.length == 0 && !JSON.parse(localStorage.getItem('products'))) {
@@ -71,8 +80,8 @@ var productStorage = (function () {
         });
         
         return result;
+ */
     };
-
 
     return new ProductStorage();
 })();

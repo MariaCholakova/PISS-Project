@@ -1,10 +1,10 @@
-// Constants
+ // Constants
 const express = require('express');
 const bodyParser = require('body-parser');
 const db_module = require('mysql');
 const cors = require('cors');
 const util = require('util');
-const PORT = 80;
+const PORT = 8088;
 
 const errors = {NO_ERROR:0,
     DB_ERROR:1,
@@ -12,7 +12,7 @@ const errors = {NO_ERROR:0,
 
 //Database 
 var pool = db_module.createPool({
-    host     : "db-server",
+    host     : "localhost",
     user     : process.env.DB_USER,
     password : process.env.DB_PASS,
     database : process.env.DB_NAME,
@@ -30,16 +30,46 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const server = app.listen(PORT);
+
 const io = require('socket.io')(server);
 
 
-var chatNamespace = io
+
+//listen on every connection
+io.on('connection', (socket) => {
+	console.log('New user connected')
+
+	//default username
+	socket.username = "Anonymous"
+
+    //listen on change_username
+    socket.on('change_username', (data) => {
+        socket.username = data.username
+    })
+
+    //listen on new_message
+    socket.on('new_message', (data) => {
+        //broadcast the new message
+        io.sockets.emit('new_message', {message : data.message, username : socket.username});
+    })
+
+    //listen on typing
+    socket.on('typing', (data) => {
+    	socket.broadcast.emit('typing', {username : socket.username})
+    })
+})
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+
+/* var chatNamespace = io
     .of('/chat')
     .on('connection', function (socket) {
         socket.on('message', async function(msg) {
             const heyRegex = /^Hey.*/;
-            const byeRegex = /.*[b|B]ye.*/;
-            try {
+          /* const byeRegex = /.*[b|B]ye.*/;
+            /* try {
                 if (msg.match(heyRegex)) {
                     socket.emit('answer', "Hello there!");
                 }
@@ -54,13 +84,19 @@ var chatNamespace = io
                 socket.emit(err);
             }
         });
-    });
+    }); */
 
-// create new customer
+    app.post('/customer', async (req, res) => {
+    res.send("hey");
+});
+
+//create new customer
 app.post('/customer', async (req, res) => {
-    var name = mysqlEscape(req.body.name);
+  
+     var name = mysqlEscape(req.body.name);
     var pass = mysqlEscape(req.body.password);
     try {
+       
         var connection = await getConnectionAsync();
         const queryAsync = util.promisify(connection.query).bind(connection);
         await queryAsync("START TRANSACTION");    
@@ -73,14 +109,15 @@ app.post('/customer', async (req, res) => {
         await queryAsync(`INSERT INTO customers (customer_name, customer_password, address, town) VALUES (${name}, ${pass}, ${req.body.address}, ${req.body.town})`);
         await queryAsync("COMMIT");
         connection.release();
+        console.log("customer added");
         res.send([errors.NO_ERROR, "Customer added to the database"]);
     }
     catch (err){    
-        res.send([errors.DB_ERROR, err]);
-    }
+        res.send([errors.DB_ERROR, err]);} 
+    
 });
 
-// get products by sex - women or men
+//get products by sex - women or men
 app.get('/products',  async (req, res) =>{
     try{
         var sex = req.query.sex;
@@ -96,7 +133,7 @@ app.get('/products',  async (req, res) =>{
     }
 });
 
-// add products to cart
+ //add products to cart
 app.put('/cart',  async (req, res) =>{
     const product_id = req.query.product_id;
     const customer = req.query.cutomer_name;
@@ -124,7 +161,7 @@ app.put('/cart',  async (req, res) =>{
     }
 });
 
-// remove products from cart
+ //remove products from cart
 app.delete('/cart', async (req, res) =>{
     const product_id = req.query.product_id;
     const customer = req.query.cutomer_name;
@@ -156,7 +193,7 @@ app.delete('/cart', async (req, res) =>{
     }
 });
 
-// order product
+//order product
 app.put('/order', async (req, res) =>{
     const product_id = req.query.product_id;
     const customer = req.query.cutomer_name;
@@ -175,9 +212,8 @@ function mysqlEscape(stringToEscape){
         return stringToEscape;
     }
     return stringToEscape.replace(/\\/g, "\\\\").replace(/\'/g, "\\\'").replace(/\"/g, "\\\"");
-}
-
+} 
+ 
 //const server = app.listen(PORT);
 console.log(`Running on port ${PORT}`);
-
 

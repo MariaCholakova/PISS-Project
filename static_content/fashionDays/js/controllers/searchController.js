@@ -1,4 +1,4 @@
-function searchController() {
+/* function searchController() {
     var products = JSON.parse(localStorage.getItem('products')).sort(function(p1, p2){
         if (p1.name > p2.name){
             return 1;
@@ -22,4 +22,4 @@ function searchController() {
         itemController(title);
         $('#searchItem').val('');
     });
-}
+} */

@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Модна дестинация #1</title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <link rel="stylesheet" href="assets/styles/reset.css">
     <link rel="stylesheet" href="assets/styles/styles.css">
+    <link rel="stylesheet" href="assets/styles/modal.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="js/request.js"></script>
     <script src="js/productService.js"></script>
     <script src="js/cartService.js"></script>
     <script src="js/userService.js"></script>
-
+    <script src="js/chat.js"></script>
     <script src="js/controllers/router.js"></script>
     <script src="js/controllers/loginRegisterController.js"></script>
     <script src="js/controllers/homeController.js"></script>
@@ -23,7 +24,12 @@
     <script src="js/controllers/userController.js"></script>
     <script src="js/controllers/productController.js"></script>
     <script src="js/controllers/searchController.js"></script>
+
+
     <script src="js/controllers/cartController.js"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -70,11 +76,11 @@
                             <span class='normalWhite'>ПОМОЩ</span>
                         </a>
                     </li>
-                    <li>
-                        <a href='#favourites'>
+                    <li data-toggle="modal" data-target="#messageModal" id="chat">
+                        <a >
                             <img src="assets/images/favouriteIcon.png" alt="">
                             <br />
-                            <span class='normalWhite'>ЛЮБИМИ ПРОДУКТИ</span>
+                            <span class='normalWhite'>ONLINE ЧAT</span>
                         </a>
                     </li>
                     <li>
@@ -902,7 +908,39 @@
         </section>
     </script>
 
+<!-- message modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+         
+          <h1 class="modal-title" class="retweet-modal-label">Dirrect messages</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
+        <section>
+          <div id="change_username">
+      <input id="usrnme" type="text" />
+      <button id="send_username" type="button">Change username</button>
+          </div>
+        </section>
+  
+        <section id="chatroom">
+          <section id="feedback"></section>
+        </section>
+  
+        
+  
+        <section id="input_zone"> 
+          <input id="mssг" class="vertical-align" type="text" />
+          <button id="send_message" class="vertical-align" type="button">Send</button>
+        </section>
+        
+      </div>
+    </div>
+  </div>
 
 </body>
 
