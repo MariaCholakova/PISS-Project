@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Модна дестинация #1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <link rel="stylesheet" href="assets/styles/reset.css">
     <link rel="stylesheet" href="assets/styles/styles.css">
@@ -104,9 +106,6 @@
                     </li>
                     <li>
                         <a id="mainMenu-brands" href="#brands">МАРКИ</a>
-                    </li>
-                    <li>
-                        <a href="" class='pink' style="font-weight:bolder">ОФЕРТИ</a>
                     </li>
                 </ul>
             </div>
@@ -773,9 +772,10 @@
                 {{#each items}}
                 <tr>
                     <td class='items'>
-                       <img src="{{image_urls.300x400.0.url}}" width="250px">
-                        <span>{{name}}</span> <br/>
-                        <span>{{brand}}</span>
+                       <img src="{{[4]}}" width="250px">
+                        <span>{{[0]}}</span> <br/>
+                        <span>{{[1]}}</span>
+                        
                     </td>
                 </tr>
                 {{/each}}

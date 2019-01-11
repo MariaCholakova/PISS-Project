@@ -5,34 +5,9 @@ var userStorage = (function () {
 
     }
 
-    UserStorage.prototype.signUpNewUser = function (user, password) {
-        data = {'name': user, 'password':password}
-        sendRequest( 'customer' , 'POST', data , function showResponse(response){
-        
-            console.log(response);
+    
 
-        } ) ;
-           
-    }
-
-        //GetUserByid
-        UserStorage.prototype.getUserById = function (userId) {
-            let deferred = $q.defer();
-                let toSend = "/id/" + userId;
-                $http.get(toSend, userId)
-                    .then(function (response) {
-                        if (response.status === OK_STATUS) {
-                            delete response.data.user.password;
-                            deferred.resolve(response.data.user);
-                        } else {
-                            deferred.reject(response.data);
-                        }
-                    })
-                    .catch(function (err) {
-                        deferred.reject(err);
-                    })
-            return deferred.promise;
-        }
+       
 
         UserStorage.prototype.loginUser = function (user) {
             let deferred = $q.defer();

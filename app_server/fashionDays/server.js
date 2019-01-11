@@ -13,9 +13,9 @@ const errors = {NO_ERROR:0,
 //Database 
 var pool = db_module.createPool({
     host     : "localhost",
-    user     : process.env.DB_USER,
-    password : process.env.DB_PASS,
-    database : process.env.DB_NAME,
+    user     : "root",
+    password : "",
+    database : "fashiondb",
     charset: "utf8_general_ci"
 });
 //used for ascynchronous requests
@@ -86,10 +86,7 @@ io.on('connection', (socket) => {
         });
     }); */
 
-    app.post('/customer', async (req, res) => {
-    res.send("hey");
-});
-
+  
 //create new customer
 app.post('/customer', async (req, res) => {
   
@@ -102,31 +99,44 @@ app.post('/customer', async (req, res) => {
         await queryAsync("START TRANSACTION");    
         const resultExistCustomer = await queryAsync(`SELECT EXISTS (SELECT * FROM customers WHERE customer_name = '${name}' FOR UPDATE) AS exist`);
         if (resultExistCustomer[0].exist != 0) {
+            console.log("dsada");
             await queryAsync("ROLLBACK");
             connection.release();
-            return res.send([errors.SERVER_ERROR, err]);
+            return res.send(false);
         }      
-        await queryAsync(`INSERT INTO customers (customer_name, customer_password, address, town) VALUES (${name}, ${pass}, ${req.body.address}, ${req.body.town})`);
+        await queryAsync(`INSERT INTO customers (customer_name, customer_password) VALUES ('${name}', '${pass}')`);
         await queryAsync("COMMIT");
         connection.release();
         console.log("customer added");
-        res.send([errors.NO_ERROR, "Customer added to the database"]);
+        res.send(true);
     }
     catch (err){    
         res.send([errors.DB_ERROR, err]);} 
     
 });
 
+app.post('/product', async (req, res) => {
+  
+    var name = mysqlEscape(req.body.name);
+   try {
+      
+    const resultProduct =  await pool.query(`SELECT * FROM products WHERE product_name='${name}'`);
+    res.send(resultProduct);
+   }
+   catch (err){    
+       res.send([errors.DB_ERROR, err]);} 
+   
+});
+
 //get products by sex - women or men
 app.get('/products',  async (req, res) =>{
     try{
-        var sex = req.query.sex;
-        const resultProducts =  await pool.query(`SELECT * FROM products WHERE sex = ${sex}`);
+        const resultProducts =  await pool.query(`SELECT * FROM products`);
         var products = [];
         for (pr of resultProducts){
-            products.push([pr.product_name, pr.product_price, pr.count_available, pr.description]);
+            products.push([pr.product_name, pr.product_price, pr.count_available, pr.description, pr.image, pr.product_sex]);
         }
-        res.send([errors.NO_ERROR, products]);
+        res.send(products);
     }
     catch (err){
         res.send([errors.DB_ERROR, err]);

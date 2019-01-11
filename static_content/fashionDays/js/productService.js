@@ -1,15 +1,11 @@
 var productStorage = (function () {
     function ProductStorage() {
 
+        var products=[];
 
-        ProductStorage.prototype.getProducts=function(){
-            let deferred = $q.defer();
-            var promise = $http.get('/products').then(function (response) {
-                deferred.resolve(response.data);
-            });
-            return deferred.promise;
-        }
+       
 /* 
+
     }
     var products = [];
     if (products.length == 0 && !JSON.parse(localStorage.getItem('products'))) {
@@ -35,9 +31,7 @@ var productStorage = (function () {
     ProductStorage.nextId = 1;
 
 
-    ProductStorage.prototype.getAll = function () {
-       return products.slice();
-    }
+    
 
 
     ProductStorage.prototype.deleteProduct = function (id) {
@@ -82,6 +76,20 @@ var productStorage = (function () {
         return result;
  */
     };
+
+    ProductStorage.prototype.getProducts=function(){
+        sendRequest('products', 'GET', {}, function showResponse(response){
+            return response;
+        });
+    }
+
+    ProductStorage.prototype.getAll = function () {
+        return products.slice();
+     }
+
+
+     
+    
 
     return new ProductStorage();
 })();

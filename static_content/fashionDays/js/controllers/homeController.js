@@ -6,13 +6,50 @@ function homeController() {
         var selectionsTemplate = $('#itemsTemplate').text();
         var selectionsPage = Handlebars.compile(selectionsTemplate);
 
-        var items;
-        var products = JSON.parse(localStorage.getItem('products'));
+      
+
+       getProducts=function(){
+            sendRequest('products', 'GET', {}, function showResponse(response){
+                var items;
+               items=response.filter(i=>{
+                   return i[5]=='m';
+               });
+                console.log(items);
+
+                for(var i=0; i<items.length; i++){
+                    var img=items[i][5];
+                    items[i].url=img;
+                }
+
+                $('#actualSelections div').eq(1).append($(selectionsPage({ items: items })));
+            
+
+                items=response.filter(i=>{
+                    return i[5]=='f';
+                });
+                 console.log(items);
+ 
+                 for(var i=0; i<items.length; i++){
+                     var img=items[i][5];
+                     items[i].url=img;
+                 }
+ 
+                 $('#actualSelections div').eq(0).append($(selectionsPage({ items: items })));
+             
+                $('.items').on('click', function () {
+                    var title = $(this).children().eq(1).text();
+                    console.log(title);
+                    itemController(title);});
+                
+            });
+        }();
+       
+        /* var products = JSON.parse(localStorage.getItem('products'));
         items = products.filter(i => {
             return i.categories.some(c => c == 'Women');
-        });
+        }); */
 
-        for (var i = 0; i < items.length; i++) {
+       /*  for (var i = 0; i < items.length; i++) {
             var img = items[i].image_urls['300x400']['0'].url;
             items[i].url = img;
         }
@@ -38,11 +75,9 @@ function homeController() {
 
         items = random.slice();
 
-        $('#actualSelections div').eq(1).append($(selectionsPage({ items: items })));
-        $('.items').on('click', function () {
-            var title = $(this).children().eq(1).text();
-            itemController(title);
+      
         });
+     */
     })
 }
 
@@ -52,21 +87,37 @@ function homeController() {
 function itemController(title) {
     
     // var title=$(this).children().eq(1).text();
-    var product = productStorage.findItem(title);
-    location.replace('#item='+product.name);
+    
+    
 
-    var itemTemplate = $('#itemTemplate').text();
-    var itemPage = Handlebars.compile(itemTemplate);
-    $('main').html(itemPage(product));
+    findItem=function(title){
+        data = {'product_name': title}
+        console.log(title);
+        sendRequest('product', 'POST', data , function showResponse(response){
+           console.log(response);
+         
+           location.replace('#item='+product);
 
-    $('#containter').html($('div.description').text());
+           var itemTemplate = $('#itemTemplate').text();
+           var itemPage = Handlebars.compile(itemTemplate);
+           $('main').html(itemPage(product));
+       
+           $('#containter').html($('div.description').text());
+       
+           $('#desc button').on('click', function(){
+                   event.preventDefault();
+       
+                   var buttonClass=$(this).attr('class');
+                   $('#containter').html($('div.'+buttonClass).text());
+           })
+        })
+    }();
+  
 
-    $('#desc button').on('click', function(){
-            event.preventDefault();
-
-            var buttonClass=$(this).attr('class');
-            $('#containter').html($('div.'+buttonClass).text());
-    })
+    
+   
+ 
+  
 
 
     //adding to cart

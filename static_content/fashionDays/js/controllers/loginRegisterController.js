@@ -42,15 +42,19 @@ function loginRegisterController(){
         $('#register').on('click', function(event){
             event.preventDefault();
             var user = $('#regUser').val();
-            var pass = $('#regPass').val();
+            var password = $('#regPass').val();
             var conditionsAccepted = $("input[id='conditionCheckbox']:checked").length;
-            userStorage.signUpNewUser(user, pass)
-            /* if(){
-
+           
+           
+           
+            data = {'name': user, 'password':password}
+            sendRequest( 'customer' , 'POST', data , function showResponse(response){
+             if(response==true){
                 if(conditionsAccepted==0){
                     alert("Не сте приели условията!");
                     return;
                 }
+
                 alert('Вие се регистрирахте успешно!');
                 $('#loginDiv').show(100);
                 $('#registerDiv').hide(100);
@@ -59,15 +63,14 @@ function loginRegisterController(){
                 $('#loginButton').css('border-bottom', '2px ridge #9d0052');
                 $('#regButton').css('border-bottom', 'none');
 
-
-            } else {
+            }else{
                 alert('Това потребителско име вече е заето!');
                 $('#regUser').val('');
                 $('#regPass').val('');
                 return;
-            }     */
+            }
+    
+            } ) ;    
         })
-       
-
     })
 }
