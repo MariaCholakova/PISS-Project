@@ -1,13 +1,15 @@
-/* function searchController() {
+function searchController() {
     var products = JSON.parse(localStorage.getItem('products')).sort(function(p1, p2){
-        if (p1.name > p2.name){
+        if (p1.product_name > p2.product_name){
             return 1;
         }
-        if (p1.name < p2.name){
+        if (p1.product_name < p2.product_name){
             return -1;
         }
         return 0;
     });
+
+    console.log(products);
 
     var source = $('#searchTemplate').html();
     var template = Handlebars.compile(source);
@@ -22,4 +24,4 @@
         itemController(title);
         $('#searchItem').val('');
     });
-} */
+}

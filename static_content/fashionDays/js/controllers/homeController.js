@@ -139,8 +139,21 @@ function homeController() {
 
 function itemController(title) {
     
-     var title=$(this).children().eq(1).text();
-
+     var product = productStorage.findItem(title);
+     location.replace('#item='+product.name);
+ 
+     var itemTemplate = $('#itemTemplate').text();
+     var itemPage = Handlebars.compile(itemTemplate);
+     $('main').html(itemPage(product));
+ 
+     $('#containter').html($('div.description').text());
+ 
+     $('#desc button').on('click', function(){
+             event.preventDefault();
+ 
+             var buttonClass=$(this).attr('class');
+             $('#containter').html($('div.'+buttonClass).text());
+     })
 
 
     //adding to cart

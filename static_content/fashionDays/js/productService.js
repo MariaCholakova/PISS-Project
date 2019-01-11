@@ -3,6 +3,15 @@ var productStorage = (function () {
 
         var products=[];
 
+
+
+    ProductStorage.prototype.findItem = function (title) {
+        var products=localStorage.getItem(products);
+        var product = products.find(p => {
+            return p.name == title;
+        })
+        return product;
+    }
        
 /* 
 
@@ -57,12 +66,6 @@ var productStorage = (function () {
         return false;
     };
 
-    ProductStorage.prototype.findItem = function (title) {
-        var product = products.find(p => {
-            return p.name == title;
-        })
-        return product;
-    }
 
 
 
