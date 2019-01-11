@@ -769,7 +769,7 @@
                     <td class='items'>
                        <img src="{{[4]}}" width="250px">
                         <span>{{[0]}}</span> <br/>
-                        <span>{{[1]}}</span>
+                        <span>{{[1]}} лв.</span>
                         
                     </td>
                 </tr>
@@ -796,7 +796,7 @@
                 <div id='info'>
                     <h2>Налични {{[0].count_available}}</h2>
                     <p id='itemTitle'>{{[0].product_name}}</p>
-                    <h1>{{[0].product_price}}</h1>
+                    <h1>{{[0].product_price}} лв.</h1>
                     <p class='bold'>Изберете количество:
                         <input class="bold" id="productQuantity" type="number" name="quantity" min="1" max="10" value="1">
                     </p>
@@ -818,7 +818,7 @@
                     <div id='containter'></div>
 
                     <div class='hidden description'>
-                        {{content.description}}
+                        {{[0].description}}
                     </div>
                     <div class='hidden payment'>Доставка Поръчките доставяме чрез една от куриерските фирми (Европът, Еконт, Рапидо). Доставка до адрес: За поръчки
                         над 89 лв. доставката е БЕЗПЛАТНА. За поръчки под 89 лв. таксата за доставка е 4 лв. Доставка до офис на
@@ -861,12 +861,12 @@
                     {{#each item}}
                     <tr id="{{id}}">
                         <td class='items'>
-                            <img src="{{product.image_urls.91x121.0.url}}" width="91">
+                            <img src="{{product.[0].image}}" width="91">
                         </td>
                         <td>
-                            <span class="items">{{product.name}}</span>
+                            <span class="items">{{product.[0].product_name}}</span>
                             <br/>
-                            <span class="items">{{product.brand}}</span>
+                            
                         </td>
                         <td>
                             <button class='deleteItem'>Премахни</button>

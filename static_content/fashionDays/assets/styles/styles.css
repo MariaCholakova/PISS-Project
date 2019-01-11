@@ -753,4 +753,10 @@ display:none;
     background:cornsilk;
   }
 
-  
+  #bigImg img{
+      width: 100%;
+  }
+  #addToCart{
+      position: relative;
+    top:37px;
+  }

@@ -64,6 +64,23 @@ function homeController() {
                                var buttonClass=$(this).attr('class');
                                $('#containter').html($('div.'+buttonClass).text());
                        })
+
+
+                       $('#addToCart').on('click', function (event) {
+                        event.preventDefault();
+                        console.log(response);
+                        var quantity = parseInt($('#productQuantity').val());
+                console.log(quantity);
+                        if (sessionStorage.getItem('loggedUser') != null) {
+                            var user = JSON.parse(sessionStorage.getItem('loggedUser'));
+                            console.log(user);
+             
+                            cartStorage.addCartItem(response, quantity);
+                        } else {
+                            alert('Трябва да се логнете, за да добавите продукт в кошницата!');
+                            location.replace('#loginRegister');
+                        }
+                    });
                     })});
                 
             });
@@ -72,6 +89,8 @@ function homeController() {
             
             
         }();
+
+        
 
        
         /* var products = JSON.parse(localStorage.getItem('products'));
@@ -107,58 +126,43 @@ function homeController() {
 
       
         });
+
      */
+
+
+
+
     })
 
-
-
-    function itemController(title) {
-
-        var title=$(this).children().eq(1).text();
-       
-          
-       
-     
-   
-       
-      
-    
-     
-   
-   
-       //adding to cart
-   
-       $('#addToCart').on('click', function (event) {
-           event.preventDefault();
-           var quantity = parseInt($('#productQuantity').val());
-   
-           if (sessionStorage.getItem('loggedUser') != null) {
-               var userId = JSON.parse(sessionStorage.getItem('loggedUser')).id;
-               cartStorage.addCartItem(product, quantity);
-           } else {
-               alert('Трябва да се логнете, за да добавите продукт в кошницата!');
-               location.replace('#loginRegister');
-           }
-       });
-   
-   
-       $('#addFav').on('click', function(){
-           var user = JSON.parse(sessionStorage.getItem('loggedUser'));
-           if(user){
-               var title=$('#itemTitle').text();
-               var product = productStorage.findItem(title);
-               $(this).css('background-color','#6495ED');
-               if(!userStorage.addToFavorites(user.id, product)){
-                   $(this).next().toggle();
-               }
-           } else {
-               alert('Влезте в профила си, за да добавите в любими!');
-               location.replace('#loginRegister');
-           }
-       })
-   
-   }
 }
+
+
+function itemController(title) {
+    
+     var title=$(this).children().eq(1).text();
+
+
+
+    //adding to cart
+
+    $('#addToCart').on('click', function (event) {
+        event.preventDefault();
+        var quantity = parseInt($('#productQuantity').val());
+
+        if (sessionStorage.getItem('loggedUser') != null) {
+            var userId = JSON.parse(sessionStorage.getItem('loggedUser')).id;
+            cartStorage.addCartItem(product, quantity);
+        } else {
+            alert('Трябва да се логнете, за да добавите продукт в кошницата!');
+            location.replace('#loginRegister');
+        }
+    });
+
+
+
+
+}
+
 
 
 
