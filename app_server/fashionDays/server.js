@@ -109,7 +109,7 @@ app.post('/customer', async (req, res) => {
 app.get('/products',  async (req, res) =>{
     try{
         var sex = req.query.sex;
-        const resultProducts =  await pool.query(`SELECT * FROM products WHERE sex = ${sex}`);
+        const resultProducts =  await pool.query(`SELECT * FROM products`);
         var products = [];
         for (pr of resultProducts){
             products.push([pr.product_name, pr.product_price, pr.count_available, pr.description]);
