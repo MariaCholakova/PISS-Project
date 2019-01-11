@@ -5,6 +5,7 @@ const db_module = require('mysql');
 const cors = require('cors');
 const util = require('util');
 const PORT = 8088;
+const sha1 = require('sha1');
 
 const errors = {NO_ERROR:0,
     DB_ERROR:1,
@@ -75,14 +76,7 @@ io.on('connection', (socket) => {
 
 
 
-<<<<<<< HEAD
   
-=======
-app.post('/customer', async (req, res) => {
-    res.send("hey");
-});
-
->>>>>>> f3aea556d8dc6b92347a0cf9c86444f2646aa90f
 //create new customer
 app.post('/customer', async (req, res) => {
     var name = mysqlEscape(req.body.name);
@@ -94,11 +88,11 @@ app.post('/customer', async (req, res) => {
         await queryAsync("START TRANSACTION");    
         const resultExistCustomer = await queryAsync(`SELECT EXISTS (SELECT * FROM customers WHERE customer_name = '${name}' FOR UPDATE) AS exist`);
         if (resultExistCustomer[0].exist != 0) {
-            console.log("dsada");
             await queryAsync("ROLLBACK");
             connection.release();
             return res.send(false);
         }      
+        pass=sha1(pass);
         await queryAsync(`INSERT INTO customers (customer_name, customer_password) VALUES ('${name}', '${pass}')`);
         await queryAsync("COMMIT");
         connection.release();
@@ -112,7 +106,7 @@ app.post('/customer', async (req, res) => {
 
 app.post('/product', async (req, res) => {
   
-    var name = mysqlEscape(req.body.name);
+    var name = mysqlEscape(req.body.product_name);
    try {
       
     const resultProduct =  await pool.query(`SELECT * FROM products WHERE product_name='${name}'`);
@@ -123,13 +117,10 @@ app.post('/product', async (req, res) => {
    
 });
 
+
 //get products by sex - women or men
 app.get('/products',  async (req, res) =>{
     try{
-<<<<<<< HEAD
-=======
-        var sex = req.query.sex;
->>>>>>> f3aea556d8dc6b92347a0cf9c86444f2646aa90f
         const resultProducts =  await pool.query(`SELECT * FROM products`);
         var products = [];
         for (pr of resultProducts){

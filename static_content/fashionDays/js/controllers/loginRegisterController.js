@@ -26,16 +26,17 @@ function loginRegisterController(){
             var user = $('#user').val();
             var pass = $('#pass').val();
 
-            var userId=userStorage.login(user, pass);
-
-            if(userId){
+            data = {'name': user, 'password':pass}
+            sendRequest( 'customer' , 'POST', data , function showResponse(response){
+            if(response==false){
                 location.replace('#home');
                 var profile = $('<a href="#settings">&nbsp;<img src="assets/images/profileIcon.png"/><br/><span class="normalWhite">МОЯТ ПРОФИЛ</span></a>');
                 $('#profile').html(profile);
+                sessionStorage.setItem("loggedUser", JSON.stringify(user));
             } else {
                 alert('Невалидно потребителско име/парола!');
                 return;
-            }    
+            }  })  
         })
 
 
@@ -72,5 +73,10 @@ function loginRegisterController(){
     
             } ) ;    
         })
+
+
+        updateUserInSession = (user) => {
+            sessionStorage.setItem("loggedUser", JSON.stringify(user))
+        }
     })
 }

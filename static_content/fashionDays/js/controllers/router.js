@@ -2,7 +2,7 @@ $(function () {
     function router() {
 
         loadF();
-        itemsHash();
+        //itemsHash();
 
         var page = location.hash.slice(1);
 
@@ -67,7 +67,7 @@ function loadF() {
         $('#profile').html(profile);
     };
 }
-
+/* 
 function itemsHash() {
     var pages = location.hash.split('=');
     var page = pages[0].slice(1);
@@ -76,4 +76,4 @@ function itemsHash() {
         itemController(item);
     }
 
-}
+} */

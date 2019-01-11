@@ -495,14 +495,9 @@
                         <a href="#orders">ПОРЪЧКИ</a>
                     </li>
                     <li>
-                        <a href="#favourites">ЛЮБИМИ ПРОДУКТИ</a>
-                    </li>
-                    <li>
                         <a href="#adresses">АДРЕСИ</a>
                     </li>
-                    <li>
-                        <a href="#cards">БАНКОВИ КАРТИ</a>
-                    </li>
+
                     <li>
                         <a href="#logout">ИЗХОД</a>
                     </li>
@@ -794,33 +789,23 @@
                 </div>
 
                 <div id='bigImg'>
-                    <img src="{{image_urls.420x560.0.url}}" alt="">
+                    <img src="{{[0].image}}" alt="">
                 </div>
 
 
                 <div id='info'>
-                    <h2>{{brand}}</h2>
-                    <p id='itemTitle'>{{name}}</p>
-                    <h1>{{skus.0.sale_price}}</h1>
+                    <h2>Налични {{[0].count_available}}</h2>
+                    <p id='itemTitle'>{{[0].product_name}}</p>
+                    <h1>{{[0].product_price}}</h1>
                     <p class='bold'>Изберете количество:
                         <input class="bold" id="productQuantity" type="number" name="quantity" min="1" max="10" value="1">
                     </p>
-
-                    <p class='bold'>Размер</p>
-                    <div>
-                        {{#each sizeAndQuantity as |s|}}
-                        <input type='radio'checked name='size' value="{{s.0.size}}"/> {{s.0.size}} {{/each}}
-                    </div>
                     <!--<p>Количество: <input id='quantity' type='text' size='4'/></p>-->
-
-                    <p>Материал: {{content.material}}</p>
-                    <p>Произведено в: {{content.origin}}</p>
 
                     <p class='bold'>ДОСТАВКА ДО 2-4 РАБОТНИ ДНИ</p>
                     <button id='addToCart'>Добави в количката</button>
-                    <button id='addFav'>&#x2661;</button>
-                    <p style="color:#9d0052">Този продукт вече е в любими</p>
-
+                    <button id='addFav' style="display:none">&#x2661;</button>
+        
                     <p class='bold'>30 ДНИ СРОК ЗА БЕЗПЛАТНО ВРЪЩАНЕ</p>
                     <p class='bold'>ПРОВЕРКА НА ПРАТКАТА</p>
                 </div>

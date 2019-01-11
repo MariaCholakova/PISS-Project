@@ -9,7 +9,7 @@ var userStorage = (function () {
 
        
 
-        UserStorage.prototype.loginUser = function (user) {
+        /* UserStorage.prototype.loginUser = function (user) {
             let deferred = $q.defer();
             $http.post('/login', user)
                 .then(function (response) {
@@ -25,7 +25,7 @@ var userStorage = (function () {
                     deferred.reject(err);
                 })
             return deferred.promise;
-        }
+        } */
 
         UserStorage.prototype.logout = function () {
             this.loggedUserId = 0;
