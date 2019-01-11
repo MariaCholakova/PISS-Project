@@ -38,19 +38,30 @@ const io = require('socket.io')(server);
 //listen on every connection
 io.on('connection', (socket) => {
 	console.log('New user connected')
+	const heyRegex = /^Hey.*/;
+	const byeRegex = /.*[b|B]ye.*/;
 
 	//default username
 	socket.username = "Anonymous"
 
     //listen on change_username
     socket.on('change_username', (data) => {
-        socket.username = data.username
+        socket.username = data.username;
     })
 
     //listen on new_message
     socket.on('new_message', (data) => {
         //broadcast the new message
         io.sockets.emit('new_message', {message : data.message, username : socket.username});
+        if (data.message.match(heyRegex)) {
+        	io.sockets.emit('new_message', {message : "Hello there!", username : socket.username});
+        }
+        else if (data.message.match(byeRegex)) {
+            io.sockets.emit('new_message', {message : "See you soon!", username : socket.username});
+        }
+        else {
+            io.sockets.emit('new_message', {message : "I don't understand...", username : socket.username});
+        }
     })
 
     //listen on typing
@@ -63,37 +74,14 @@ io.on('connection', (socket) => {
  */
 
 
-/* var chatNamespace = io
-    .of('/chat')
-    .on('connection', function (socket) {
-        socket.on('message', async function(msg) {
-            const heyRegex = /^Hey.*/;
-          /* const byeRegex = /.*[b|B]ye.*/;
-            /* try {
-                if (msg.match(heyRegex)) {
-                    socket.emit('answer', "Hello there!");
-                }
-                else if (msg.match(byeRegex)) {
-                    socket.emit('answer', "See you soon!");
-                }
-                else {
-                    socket.emit('answer', "I don't know what you are talking about");
-                }
-            }
-            catch (err){
-                socket.emit(err);
-            }
-        });
-    }); */
 
-    app.post('/customer', async (req, res) => {
+app.post('/customer', async (req, res) => {
     res.send("hey");
 });
 
 //create new customer
 app.post('/customer', async (req, res) => {
-  
-     var name = mysqlEscape(req.body.name);
+    var name = mysqlEscape(req.body.name);
     var pass = mysqlEscape(req.body.password);
     try {
        
