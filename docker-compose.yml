@@ -22,8 +22,8 @@ services:
             - db-server
         volumes:
             - type: bind
-               source: ./app_server/fashionDays
-               target: /var/www/html/fashionDays
+              source: ./app_server/fashionDays
+              target: /var/www/html/fashionDays
         environment:
             - DB_NAME=${DB_NAME}
             - DB_USER=${DB_USER}
