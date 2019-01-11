@@ -8,9 +8,7 @@ const PORT = 80;
 
 const errors = {NO_ERROR:0,
     DB_ERROR:1,
-    SERVER_ERROR:2,
-    GAME_ERROR:3,
-    UNKNOWN_PLAYER:4};
+    SERVER_ERROR:2};
 
 //Database 
 var pool = db_module.createPool({
