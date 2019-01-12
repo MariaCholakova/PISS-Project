@@ -149,9 +149,9 @@ app.put('/purchase', async (req, res) =>{
 });
 
 //get count of products
-app.post('/count', async (req, res) =>{
-    const product_name = req.body.product_name;
-    var quantity=req.body.quantity;
+app.get('/count', async (req, res) =>{
+    const product_name = req.query.product_name;
+    var quantity=req.query.quantity;
     try{ 
         const result =  await pool.query(`SELECT count_available,product_name FROM products WHERE product_name='${product_name}'`);
         if(result>=quantity){
