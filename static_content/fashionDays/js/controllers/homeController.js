@@ -11,7 +11,7 @@ function homeController() {
         
       
 
-       getProducts=function(){
+       
             sendRequest('products', 'GET', {}, function showResponse(response){
                 var items;
                items=response.filter(i=>{
@@ -51,7 +51,9 @@ function homeController() {
                        console.log(response);
                      
                        location.replace('#item='+response);
-                        console.log(response);
+                        console.log(response[0].count_available);
+                        
+                        
                        var itemTemplate = $('#itemTemplate').text();
                        var itemPage = Handlebars.compile(itemTemplate);
                        $('main').html(itemPage(response));
@@ -67,10 +69,11 @@ function homeController() {
 
 
                        $('#addToCart').on('click', function (event) {
+                            
                         event.preventDefault();
                         console.log(response);
                         var quantity = parseInt($('#productQuantity').val());
-                console.log(quantity);
+                        console.log(quantity);
                         if (sessionStorage.getItem('loggedUser') != null) {
                             var user = JSON.parse(sessionStorage.getItem('loggedUser'));
                             console.log(user);
@@ -81,6 +84,8 @@ function homeController() {
                             location.replace('#loginRegister');
                         }
                     });
+
+                    
                     })});
                 
             });
@@ -88,7 +93,7 @@ function homeController() {
 
             
             
-        }();
+        
 
         
 
@@ -159,9 +164,10 @@ function itemController(title) {
     //adding to cart
 
     $('#addToCart').on('click', function (event) {
+        
         event.preventDefault();
         var quantity = parseInt($('#productQuantity').val());
-
+        console.log(quantity);
         if (sessionStorage.getItem('loggedUser') != null) {
             var userId = JSON.parse(sessionStorage.getItem('loggedUser')).id;
             cartStorage.addCartItem(product, quantity);
@@ -175,8 +181,6 @@ function itemController(title) {
 
 
 }
-
-
 
 
 

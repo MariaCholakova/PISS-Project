@@ -7,7 +7,7 @@ var cartStorage = (function () {
 
     CartStorage.nextId = 1;
 
-
+    
 
     CartStorage.prototype.addCartItem = function (product, quantity) {
         // if ((product instanceof Product) && (quantity > 0)) {
@@ -71,13 +71,15 @@ var cartStorage = (function () {
 
 
     CartStorage.prototype.calculateItemTotal = function(cartItem) {
-        return +((cartItem.quantity * cartItem.product[4]).toFixed(2));
+        return +((cartItem.quantity * cartItem.product[0].product_price).toFixed(2));
     };
 
 
     CartStorage.prototype.calculateCartTotal = function(){
         return this._items.reduce(function(total, item) {
-            return total + item.cartItemTotal;
+            var t=Number(total);
+            var g = Number(item.cartItemTotal)
+            return t+g;
         }, 0);
     };
 

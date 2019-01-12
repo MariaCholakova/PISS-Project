@@ -5,13 +5,13 @@ var productStorage = (function () {
 
 
 
-    ProductStorage.prototype.findItem = function (title) {
+   /*  ProductStorage.prototype.findItem = function (title) {
         var products=localStorage.getItem(products);
         var product = products.find(p => {
             return p.name == title;
         })
         return product;
-    }
+    } */
        
 /* 
 

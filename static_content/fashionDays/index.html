@@ -25,13 +25,13 @@
     <script src="js/controllers/helpController.js"></script>
     <script src="js/controllers/userController.js"></script>
     <script src="js/controllers/productController.js"></script>
-    <script src="js/controllers/searchController.js"></script>
+    
 
 
     <script src="js/controllers/cartController.js"></script>
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-
+ 
 </head>
 
 <body>
@@ -41,7 +41,7 @@
             <a href="#home">
                 <h1 id='title'>
                     <span class='normalWhite'>FASHION</span>
-                    <span class='normalWhite'>DAYS</span>
+                    <span class='normalWhite'>days</span>
                 </h1>
             </a>
 
@@ -98,15 +98,7 @@
         <nav id='mainNav'>
             <div id='categories'>
                 <ul>
-                    <li>
-                        <a id="mainMenu-women" href="#Women">ЖЕНИ</a>
-                    </li>
-                    <li>
-                        <a id="mainMenu-men" href="#Men">МЪЖЕ</a>
-                    </li>
-                    <li>
-                        <a id="mainMenu-brands" href="#brands">МАРКИ</a>
-                    </li>
+                   
                 </ul>
             </div>
             <div>
@@ -850,6 +842,7 @@
                 <caption>Вашата количка</caption>
                 <thead>
                     <tr>
+                        <th>Налични</th>
                         <th colspan="2"></th>
                         <th>Премахни</th>
                         <th>Цена за артикул</th>
@@ -860,6 +853,9 @@
                 <tbody>
                     {{#each item}}
                     <tr id="{{id}}">
+                            <td class='items'>
+                                    <span class="items">{{product.[0].count_available}}</span>
+                                </td>
                         <td class='items'>
                             <img src="{{product.[0].image}}" width="91">
                         </td>
@@ -872,20 +868,20 @@
                             <button class='deleteItem'>Премахни</button>
                         </td>
                         <td>
-                            <span>{{product.skus.0.sale_price}}</span>
+                            <span>{{product.[0].product_price}} лв</span>
                         </td>
                         <td>
                             <input class="changeQuantity" type="number" min="1" value="{{quantity}}"/>
                         </td>
                         <td>
-                            <span>{{cartItemTotal}}</span>
+                            <span>{{cartItemTotal}} лв.</span>
                         </td>
                     </tr>
                     {{/each}}
                     <tr>
                         <td>Общо</td>
                         <td colspan="4"></td>
-                        <td id="totalCost"></td>
+                        <td id="totalCost"> лв.</td>
                     </tr>
                 </tbody>
             </table>
@@ -926,6 +922,69 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+       sendRequest('products', 'GET', {}, function showResponse(response){
+console.log(response);
+    
+
+    var source = $('#searchTemplate').html();
+    var template = Handlebars.compile(source);
+
+    var searchHTML = template({product: response});
+    $('#productList').html(searchHTML);
+
+    $('#searchByTitle').on('click', function () {
+        event.preventDefault();
+        
+        var title = $('#searchItem').val();
+        console.log(title);
+        data = {'product_name': title}
+                    console.log(title);
+                    sendRequest('product', 'POST', data , function showResponse(response){
+                       console.log(response);
+                     
+                       location.replace('#item='+response);
+                        console.log(response[0].count_available);
+                        
+                        
+                       var itemTemplate = $('#itemTemplate').text();
+                       var itemPage = Handlebars.compile(itemTemplate);
+                       $('main').html(itemPage(response));
+                        
+                       $('#containter').html($('div.description').text());
+                   
+                       $('#desc button').on('click', function(){
+                               event.preventDefault();
+                   
+                               var buttonClass=$(this).attr('class');
+                               $('#containter').html($('div.'+buttonClass).text());
+                       })
+
+
+                       $('#addToCart').on('click', function (event) {
+                            
+                        event.preventDefault();
+                        console.log(response);
+                        var quantity = parseInt($('#productQuantity').val());
+                        console.log(quantity);
+                        if (sessionStorage.getItem('loggedUser') != null) {
+                            var user = JSON.parse(sessionStorage.getItem('loggedUser'));
+                            console.log(user);
+             
+                            cartStorage.addCartItem(response, quantity);
+                        } else {
+                            alert('Трябва да се логнете, за да добавите продукт в кошницата!');
+                            location.replace('#loginRegister');
+                        }
+                    });
+
+                    
+                    })
+        $('#searchItem').val('');
+    })});
+    </script>
 
 </body>
 

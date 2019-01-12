@@ -117,6 +117,32 @@ app.post('/product', async (req, res) => {
    
 });
 
+app.post('/user',  async (req, res) =>{
+    var name = mysqlEscape(req.body.name);
+    try{
+        const result =  await pool.query(`SELECT * FROM customers WHERE customer_name='${name}'`);
+        
+        res.send(result);
+    }
+    catch (err){
+        res.send([errors.DB_ERROR, err]);
+    }
+});
+
+
+
+app.put('/user',  async (req, res) =>{
+    var name = mysqlEscape(req.body.name);
+    var orders = req.body.orders;
+    try{
+        await pool.query(`UPDATE customers SET orders='${orders}' WHERE customer_name='${name}'`);
+        
+        res.send(result);
+    }
+    catch (err){
+        res.send([errors.DB_ERROR, err]);
+    }
+});
 
 //get products by sex - women or men
 app.get('/products',  async (req, res) =>{
@@ -194,16 +220,48 @@ app.delete('/cart', async (req, res) =>{
 });
 
 //order product
-app.put('/order', async (req, res) =>{
-    const product_id = req.query.product_id;
-    const customer = req.query.cutomer_name;
-    try{
-        await pool.query(`UPDATE products_in_cart SET date_ordered = CURRENT_TIMESTAMP() WHERE customer_id = (SELECT customer_id FROM customers WHERE customer_name = '${customer}') AND product_id = ${product_id} AND date_ordered IS NULL) `);
-        return res.send([errors.NO_ERROR,  customer + "'s order was successful"]); 
+app.put('/purchase', async (req, res) =>{
+    const product_name = req.body.product_name;
+    const quantity=req.body.quantity;
+    
+    try{ 
+        await pool.query(`UPDATE products SET count_available = ${quantity} WHERE product_name = '${product_name}'`);
+        return res.send("order was successful"); 
     }
     catch (err){
+        console.log(err);
         res.send([errors.DB_ERROR, err]);
     }
+});
+
+app.post('/count', async (req, res) =>{
+    const product_name = req.body.product_name;
+    var quantity=req.body.quantity;
+    try{ 
+
+        const result =  await pool.query(`SELECT count_available,product_name FROM products WHERE product_name='${product_name}'`);
+        if(result>=quantity){
+            result[0].quantity=quantity;
+            return res.send(result);
+        }
+        
+    }
+    catch (err){
+        res.send(false);
+    }
+});
+
+app.post('/orders', async (req, res) => {
+  
+    var name = mysqlEscape(req.body.customer_name);
+   try {
+      
+    const resultProduct =  await pool.query(`SELECT orders FROM customers WHERE customer_name='${name}'`);
+    res.send(resultProduct);
+   }
+   catch (err){    
+       res.send([errors.DB_ERROR, err]);} 
+   
 });
 
 

@@ -5,7 +5,6 @@ var userStorage = (function () {
 
     }
 
-    
 
        
 
@@ -46,7 +45,7 @@ var userStorage = (function () {
 
 
 
-    UserStorage.prototype.purchase = function (userId) {
+    UserStorage.prototype.purchase = function (user) {
         var index = this._users.findIndex(user => user.id == userId);
 
         if (index != -1) {
@@ -55,7 +54,6 @@ var userStorage = (function () {
             //newOrder.date=new Date().toJSON().slice(0,10).replace(/-/g,'/');
             user.orders.push(newOrder);
             sessionStorage.setItem('loggedUser', JSON.stringify(user));
-            localStorage.setItem('users', JSON.stringify(this._users));
         }
     };
 

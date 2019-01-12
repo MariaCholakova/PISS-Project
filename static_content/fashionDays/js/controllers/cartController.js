@@ -6,12 +6,12 @@ function cartController() {
         var cartSource = $('#cartTemplate').html();
         var cartTemplate = Handlebars.compile(cartSource);
 
-        var cartHTML = cartTemplate({item: products});
+        var cartHTML = cartTemplate({ item: products });
         $('main').html(cartHTML);
         $('#totalCost').text(total);
 
 
-        $('input.changeQuantity').on('change',function(){
+        $('input.changeQuantity').on('change', function () {
             var cartItemId = $(this).closest('tr').attr('id');
             var newQuantity = $(this).val();
             cartStorage.changeCartItem(cartItemId, newQuantity);
@@ -19,19 +19,42 @@ function cartController() {
         });
 
 
-        $('.deleteItem').on('click',function(){
+        $('.deleteItem').on('click', function () {
             var cartItemId = $(this).closest('tr').attr('id');
             cartStorage.removeCartItem(cartItemId);
             cartController();
         });
 
 
-        $('#purchaseBut').on('click', function(){
-            var userId = JSON.parse(sessionStorage.getItem('loggedUser')).id;
-            userStorage.purchase(userId);
-            cartStorage.emptyCart();
-            alert('Вашата поръчка е осъществена успешно!');
-            location.replace('#home');
+        $('#purchaseBut').on('click', function () {
+            var user = JSON.parse(sessionStorage.getItem('loggedUser'));
+
+            for (var i = 0; i < products.length; i++) {
+                var data = { "product_name": products[i].product[0].product_name, "quantity": products[i].quantity }
+
+                sendRequest('count', 'POST', data, function showResponse(response) {
+                    console.log(response[0]);
+                    console.log(response[0].count_available);
+                    if (response[0].count_available > 0) {
+                        user.orders += (response[0].product_name + " ");
+
+                        sessionStorage.setItem("userOrders", user.orders);
+                        var q = Number(response[0].count_available - response[0].quantity);
+                        console.log(q);
+                        var d = { "product_name": response[0].product_name, "quantity": q };
+                        sendRequest('purchase', 'PUT', d, function showResponse(r) {
+                            alert('Вашата поръчка е осъществена успешно!');
+                            cartStorage.emptyCart();
+
+                            location.replace('#home');
+                        })
+                    } else {
+                        alert("Този продукт е временно изчерпан!");
+                    }
+                })
+
+                //tuk response e undefined
+            }
         });
 
         $('.items').on('click', function () {
