@@ -97,30 +97,19 @@ app.post('/customer', async (req, res) => {
 });
 
 //search for product
-app.post('/product', async (req, res) => {
-    var name = mysqlEscape(req.body.product_name);
+app.get('/product', async (req, res) => {
+    var name = mysqlEscape(req.query.product_name);
     try {  
         const resultProduct =  await pool.query(`SELECT * FROM products WHERE product_name='${name}'`);
         res.send([errors.NO_ERROR, resultProduct]);
     }
-    catch (err){    
+    catch (err) {    
        res.send([errors.DB_ERROR, err]);
     }   
 });
 
-app.get('/user',  async (req, res) =>{
-    var name = mysqlEscape(req.body.name);
-    try{
-        const resultProduct =  await pool.query(`SELECT * FROM customers WHERE customer_name='${name}'`);
-        res.send([errors.NO_ERROR, resultProduct]);
-    }
-    catch (err){
-        res.send([errors.DB_ERROR, err]);
-    }
-});
-
-//get products by sex - women or men
-app.get('/products',  async (req, res) =>{
+//get all products
+app.get('/allproducts',  async (req, res) =>{
     try{
         const resultProducts =  await pool.query(`SELECT * FROM products`);
         var products = [];
@@ -163,18 +152,6 @@ app.get('/count', async (req, res) =>{
         res.send([errors.DB_ERROR, err]);
     }
 });
-
-app.get('/orders', async (req, res) => {
-    var name = mysqlEscape(req.body.customer_name);
-    try {
-        const resultProduct =  await pool.query(`SELECT orders FROM customers WHERE customer_name='${name}'`);
-        res.send([errors.NO_ERROR, resultProduct]);
-    }
-    catch (err){    
-        res.send([errors.DB_ERROR, err]);
-    }   
-});
-
 
 function mysqlEscape(stringToEscape){
     if(stringToEscape == '') {

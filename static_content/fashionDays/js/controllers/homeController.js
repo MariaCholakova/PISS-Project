@@ -12,7 +12,7 @@ function homeController() {
       
 
        
-            sendRequest('products', 'GET', {}, function showResponse(response){
+            sendRequest('allproducts', 'GET', {}, function showResponse(response){
                 var items;
                items=response.filter(i=>{
                    return i[5]=='m';
@@ -47,7 +47,7 @@ function homeController() {
                     console.log(title);
                     data = {'product_name': title}
                     console.log(title);
-                    sendRequest('product', 'POST', data , function showResponse(response){
+                    sendRequest('product', 'GET', data , function showResponse(response){
                        console.log(response);
                      
                        location.replace('#item='+response);
