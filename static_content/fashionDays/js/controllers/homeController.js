@@ -51,7 +51,7 @@ function homeController() {
                        console.log(response);
                      
                        location.replace('#item='+response);
-                        console.log(response[0].count_available);
+                       console.log(response[0].count_available);
                         
                         
                        var itemTemplate = $('#itemTemplate').text();
