@@ -43,7 +43,15 @@ function loginRegisterController(){
         $('#register').on('click', function(event){
             event.preventDefault();
             var user = $('#regUser').val();
+            if (user == "") {
+                alert("Не сте въвели име!");
+                return;
+            }
             var password = $('#regPass').val();
+            if (password == "") {
+                alert("Не сте въвели парола!");
+                return;
+            }
             var conditionsAccepted = $("input[id='conditionCheckbox']:checked").length;
            
            
