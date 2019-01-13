@@ -1,11 +1,10 @@
--- phpMyAdmin SQL Dump
--- version 4.7.7
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Jan 12, 2019 at 07:59 PM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.2
+
+CREATE DATABASE fashiondb;
+USE fashiondb;
+
+CREATE USER 'fashiondbuser'@'%' IDENTIFIED BY 'fashiondbpass';
+GRANT ALL PRIVILEGES ON fashiondb.* to 'fashiondbuser'@'%';
+FLUSH PRIVILEGES;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -18,15 +17,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `fashiondb`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customers`
---
 
 CREATE TABLE `customers` (
   `customer_id` int(11) NOT NULL,
@@ -34,18 +24,9 @@ CREATE TABLE `customers` (
   `customer_password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `customers`
---
-
 INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_password`) VALUES
 (1, 'Maria Cholakova', 'Asdf1');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
@@ -57,9 +38,6 @@ CREATE TABLE `products` (
   `image` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `products`
---
 
 INSERT INTO `products` (`product_id`, `product_price`, `product_name`, `count_available`, `product_sex`, `description`, `image`) VALUES
 (1, 156.99, 'GUESS dress', 2, 'f', 'Such a beautiful dess!', 'https://lumiere-a.akamaihd.net/v1/images/file_be6334f7.jpeg?width=1200&region=0%2C0%2C2000%2C2000&quality=8'),
@@ -78,36 +56,18 @@ INSERT INTO `products` (`product_id`, `product_price`, `product_name`, `count_av
 (14, 104.99, 'Blue skirt', 1, 'f', 'Women\'s skirt in blue.', 'http://www.eyesofthewildtattoostudio.com/image/cache/data/category_3/max-and-co-women-calamaio-skirt-an-essential-item-in-the-closet-ma646aa96eyp-ouvhovf-4028-500x500.jpg'),
 (15, 91.99, 'Everyday jeans', 5, 'm', 'Men\'s jeans in black.', 'https://media.dcshoes-newzealand.co.nz/media/catalog/product/cache/thumbnail/500x500/9df78eab33525d08d6e5fb8d27136e95/e/d/edydp03383_dc_mens_worker_slim_denim_jeans_kvjw_1_h.jpg');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `customers`
---
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
 
---
--- Indexes for table `products`
---
+
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`),
   ADD UNIQUE KEY `product_name` (`product_name`);
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `customers`
---
 ALTER TABLE `customers`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `products`
---
+
 ALTER TABLE `products`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
