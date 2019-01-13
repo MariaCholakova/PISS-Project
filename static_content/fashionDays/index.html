@@ -19,6 +19,7 @@
     <script src="js/cartService.js"></script>
     <script src="js/userService.js"></script>
     <script src="js/chat.js"></script>
+    <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
     <script src="js/controllers/router.js"></script>
     <script src="js/controllers/loginRegisterController.js"></script>
     <script src="js/controllers/homeController.js"></script>
@@ -911,22 +912,26 @@
 
         <section>
           <div id="change_username">
-      <input id="usrnme" type="text" />
-      <button id="send_username" type="button">Change username</button>
+                <input id="usrnme" type="text" />
+                <button id="send_username" type="button">Change username</button>
           </div>
         </section>
-  
+
+        <section id="videostream" style="background: grey;"> 
+            <div>
+                <video id="localVideo" autoplay></video>
+                <script src="js/videoscript.js"></script>
+            </div>
+        </section>
+
         <section id="chatroom">
           <section id="feedback"></section>
         </section>
-  
-        
-  
+
         <section id="input_zone"> 
           <input id="mssг" class="vertical-align" type="text" />
           <button id="send_message" class="vertical-align" type="button">Send</button>
         </section>
-        
       </div>
     </div>
   </div>
