@@ -743,6 +743,14 @@ display:none;
     display: none;
 }
 
+#videostream video {
+    max-width: 300px;
+    margin: 0 150px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    padding: 0;
+}
+
 #chat:hover{
     cursor: pointer;
 }

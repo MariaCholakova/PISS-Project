@@ -8,40 +8,15 @@ function sendRequest(uri, method, parameters, callback) {
         url: appServerAddress + uri,
         type: method,
         data: parameters,
-        success: callback
+        success: function (result) {
+            //no error
+            if (result[0] == 0) {
+                // handle the response with callback function
+                callback(result[1]);
+            } else {
+                //alert the error
+                alert(result[1]);
+            }
+        }
     });
-} 
-
-/*  USAGE 
-   Example 1
-    sendRequest( '/order' , 'PUT', {} , function showResponse(response){
-        console.log(response);
-    } ) ;
-    
-    
-    Example 2
-    data = {'name': 'maria', 'password':'asdf'}
-    sendRequest( '/customer' , 'POST', data , function showResponse(response){
-        console.log(response);
-    } ) ;
-
-
-	Example 3
-	sendRequest('/products', 'GET', {}, function showResponse(response){
-		console.log(response);
-	});
-
-
-    Example 4
-	sendRequest('/cart', 'PUT', {}, function showResponse(response){
-		console.log(response);
-	});
-
-	
-	Example 5
-	sendRequest('/cart', 'DELETE', {}, function showResponse(response){
-		console.log(response);
-	});
-
-});
-*/
+}
