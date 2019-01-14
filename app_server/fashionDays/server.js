@@ -229,7 +229,7 @@ app.put('/purchase', async (req, res) =>{
         return res.send("order was successful"); 
     }
     catch (err){
-        console.log(err);
+        
         res.send([errors.DB_ERROR, err]);
     }
 });
