@@ -1,8 +1,8 @@
 version: "3.7"
 
 services:
-    db-server:
-        container_name: db-server
+    fashion-db-server:
+        container_name: fashion-db-server
         build: ./db_server
         networks:
             - backend
@@ -12,14 +12,14 @@ services:
             - MYSQL_USER:${DB_USER}
             - MYSQL_PASSWORD:${DB_PASS}
     
-    app-server:
-        container_name: app-server
+    fashion-app-server:
+        container_name: fashion-app-server
         build: ./app_server
         networks:
             - frontend
             - backend
         depends_on:
-            - db-server
+            - fashion-db-server
         volumes:
             - type: bind
               source: ./app_server/fashionDays
@@ -29,11 +29,11 @@ services:
             - DB_USER=${DB_USER}
             - DB_PASS=${DB_PASS}
         ports:
-            - "8088:80"
+            - "8090:80"
         command: node /var/www/html/fashionDays/server.js
     
-    static-content:
-        container_name: static-content
+    fashion-static-content:
+        container_name: fashion-static-content
         build: ./static_content
         networks:
             - frontend
@@ -42,7 +42,7 @@ services:
             source: ./static_content/fashionDays
             target: /usr/local/apache2/htdocs/fashionDays
         ports:
-            - "8080:80"
+            - "8091:80"
       
 networks:
   frontend:

@@ -1,7 +1,7 @@
 
 $(function(){
     //make connection
- var socket = io.connect('http://localhost:8088')
+ var socket = io.connect( appServerAddress + "chat");
 
  //buttons and inputs
  var message = $("#mssг")

@@ -5,7 +5,7 @@ const db_module = require('mysql');
 const cors = require('cors');
 const util = require('util');
 const sha1 = require('sha1');
-const PORT = 8088;
+const PORT = 80;
 
 const errors = {NO_ERROR:0,
     DB_ERROR:1,
@@ -13,10 +13,10 @@ const errors = {NO_ERROR:0,
 
 //Database 
 var pool = db_module.createPool({
-    host     : "localhost",
-    user     : "root",
-    password : "",
-    database : "fashiondb",
+    host     : "fashion-db-server",
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASS,
+    database : process.env.DB_NAME,
     charset  : "utf8_general_ci"
 });
 //used for ascynchronous requests
@@ -33,43 +33,43 @@ app.use(bodyParser.urlencoded({extended: true}));
 const server = app.listen(PORT);
 
 const io = require('socket.io')(server);
+var chatNamespace = io
+    .of('/chat')
+    .on('connection', function (socket) {
+        console.log('New user connected to chatroom')
+        const heyRegex = /^Hey.*/;
+        const byeRegex = /.*[b|B]ye.*/;
 
+        //default username
+        socket.username = "Anonymous"
 
-//listen on every connection
-io.on('connection', (socket) => {
-	console.log('New user connected')
-	const heyRegex = /^Hey.*/;
-	const byeRegex = /.*[b|B]ye.*/;
+        //listen on change_username
+        socket.on('change_username', (data) => {
+            socket.username = data.username;
+        })
 
-	//default username
-	socket.username = "Anonymous"
+        //listen on new_message
+        socket.on('new_message', (data) => {
+            //broadcast the new message
+            var bot = "Fashion Days Bot";
+            socket.emit('new_message', {message : data.message, username : socket.username});
+            if (data.message.match(heyRegex)) {
+                socket.emit('new_message', {message : "Hello there!", username : bot});
+            }
+            else if (data.message.match(byeRegex)) {
+               // io.sockets.emit('new_message', {message : "See you soon!", username : bot});
+               socket.emit('new_message', {message : "See you soon!", username : bot});
+            }
+            else {
+                socket.emit('new_message', {message : "I don't understand...", username : bot});
+            }
+        })
 
-    //listen on change_username
-    socket.on('change_username', (data) => {
-        socket.username = data.username;
+        //listen on typing
+        socket.on('typing', (data) => {
+            socket.broadcast.emit('typing', {username : socket.username})
+        })
     })
-
-    //listen on new_message
-    socket.on('new_message', (data) => {
-        //broadcast the new message
-        var bot = "Fashion Days Bot";
-        io.sockets.emit('new_message', {message : data.message, username : socket.username});
-        if (data.message.match(heyRegex)) {
-        	io.sockets.emit('new_message', {message : "Hello there!", username : bot});
-        }
-        else if (data.message.match(byeRegex)) {
-            io.sockets.emit('new_message', {message : "See you soon!", username : bot});
-        }
-        else {
-            io.sockets.emit('new_message', {message : "I don't understand...", username : bot});
-        }
-    })
-
-    //listen on typing
-    socket.on('typing', (data) => {
-    	socket.broadcast.emit('typing', {username : socket.username})
-    })
-})
 
 //create new customer
 app.post('/customer', async (req, res) => {

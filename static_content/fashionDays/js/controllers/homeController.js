@@ -90,53 +90,6 @@ function homeController() {
                 
             });
 
-
-            
-            
-        
-
-        
-
-       
-        /* var products = JSON.parse(localStorage.getItem('products'));
-        items = products.filter(i => {
-            return i.categories.some(c => c == 'Women');
-        }); */
-
-       /*  for (var i = 0; i < items.length; i++) {
-            var img = items[i].image_urls['300x400']['0'].url;
-            items[i].url = img;
-        }
-        const RANDOM_SELECTIONS = 20;
-        var random = [];
-        for (var i = 0; i < RANDOM_SELECTIONS; i++) {
-            var ran = items[Math.floor(Math.random() * items.length)];
-            random.push(ran);
-        }
-
-        items = random.slice();
-
-        $('#actualSelections div').eq(0).append($(selectionsPage({ items: items })));
-
-        items = products.filter(i => {
-            return i.categories.some(c => c == 'Men');
-        });
-        var random = [];
-        for (var i = 0; i < RANDOM_SELECTIONS; i++) {
-            var ran = items[Math.floor(Math.random() * items.length)];
-            random.push(ran);
-        }
-
-        items = random.slice();
-
-      
-        });
-
-     */
-
-
-
-
     })
 
 }
