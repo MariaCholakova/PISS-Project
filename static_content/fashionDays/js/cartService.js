@@ -10,8 +10,26 @@ var cartStorage = (function () {
     
 
     CartStorage.prototype.addCartItem = function (product, quantity) {
+         this.items=JSON.parse(sessionStorage.getItem("cart"));
+        if(this.items){
+            var item=this.items.find(i=>i.product[0].product_name==product[0].product_name);
+            if(item){
+                this.removeCartItem(item.id);
+                var itemQuantity=item.quantity;
+            }
+          
+           }  
+        
         // if ((product instanceof Product) && (quantity > 0)) {
+            console.log(product[0].product_name);
+         //
+         
+          
         if (quantity > 0) {
+            
+            if(item){
+                quantity=quantity+item.quantity;
+            }
             var cartItem = new CartItem(product, quantity);
             this._items.push(cartItem);
 

@@ -938,9 +938,7 @@
 
 
   <script>
-       sendRequest('products', 'GET', {}, function showResponse(response){
-console.log(response);
-    
+       sendRequest('allproducts', 'GET', {}, function showResponse(response){
 
     var source = $('#searchTemplate').html();
     var template = Handlebars.compile(source);
@@ -955,7 +953,7 @@ console.log(response);
         console.log(title);
         data = {'product_name': title}
                     console.log(title);
-                    sendRequest('product', 'POST', data , function showResponse(response){
+                    sendRequest('product', 'GET', data , function showResponse(response){
                        console.log(response);
                      
                        location.replace('#item='+response);

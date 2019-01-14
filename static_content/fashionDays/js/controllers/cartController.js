@@ -32,28 +32,14 @@ function cartController() {
             for (var i = 0; i < products.length; i++) {
                 var data = { "product_name": products[i].product[0].product_name, "quantity": products[i].quantity }
 
-<<<<<<< HEAD
-                sendRequest('count', 'POST', data, function showResponse(response) {
+                sendRequest('count', 'GET', data, function showResponse(response) {
                    
                     if (response[0].count_available > 0) {
-=======
-                sendRequest('count', 'GET', data, function showResponse(response) {
-                    console.log(response[0]);
-                    console.log(response[0].count_available);
-                    if (response[0].count_available < response[0].quantity) {
-                        alert("Този продукт не е наличен в толкова бройки!");
-                    } else if (response[0].count_available > 0) {
->>>>>>> 3801c893ea9f96b411baa413137052f53d5c0a33
                         user.orders += (response[0].product_name + " ");
 
                         sessionStorage.setItem("userOrders", user.orders);
                         var q = Number(response[0].count_available - response[0].quantity);
-<<<<<<< HEAD
                  
-=======
-
-                        console.log(q);
->>>>>>> 3801c893ea9f96b411baa413137052f53d5c0a33
                         var d = { "product_name": response[0].product_name, "quantity": q };
                         sendRequest('purchase', 'PUT', d, function showResponse(r) {
                             alert('Вашата поръчка е осъществена успешно!');

@@ -1,7 +1,9 @@
 function homeController() {
     $(function () {
         
-        
+        window.onload=function(){
+            window.location.hash='home';
+        }
         
         var main = $('#mainDiv').html();
         $('main').html(main);
@@ -45,21 +47,12 @@ function homeController() {
                     var title = $(this).children().eq(1).text();
                  
                     data = {'product_name': title}
-<<<<<<< HEAD
                    
-                    sendRequest('product', 'POST', data , function showResponse(response){
+                    sendRequest('product', 'GET', data , function showResponse(response){
                        
                      
                        location.replace('#item='+response);
                     
-=======
-                    console.log(title);
-                    sendRequest('product', 'GET', data , function showResponse(response){
-                       console.log(response);
-                     
-                       location.replace('#item='+response);
-                       console.log(response[0].count_available);
->>>>>>> 3801c893ea9f96b411baa413137052f53d5c0a33
                         
                         
                        var itemTemplate = $('#itemTemplate').text();
