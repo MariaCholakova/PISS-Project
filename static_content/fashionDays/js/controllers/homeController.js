@@ -1,7 +1,9 @@
 function homeController() {
     $(function () {
         
-        
+        window.onload=function(){
+            window.location.hash='home';
+        }
         
         var main = $('#mainDiv').html();
         $('main').html(main);
@@ -17,8 +19,7 @@ function homeController() {
                items=response.filter(i=>{
                    return i[5]=='m';
                });
-                console.log(items);
-
+               
                 for(var i=0; i<items.length; i++){
                     var img=items[i][5];
                     items[i].url=img;
@@ -30,7 +31,7 @@ function homeController() {
                 items=response.filter(i=>{
                     return i[5]=='f';
                 });
-                 console.log(items);
+                
  
                  for(var i=0; i<items.length; i++){
                      var img=items[i][5];
@@ -44,14 +45,14 @@ function homeController() {
 
                 $('.items').on('click', function () {
                     var title = $(this).children().eq(1).text();
-                    console.log(title);
+                 
                     data = {'product_name': title}
-                    console.log(title);
+                   
                     sendRequest('product', 'GET', data , function showResponse(response){
-                       console.log(response);
+                       
                      
                        location.replace('#item='+response);
-                       console.log(response[0].count_available);
+                    
                         
                         
                        var itemTemplate = $('#itemTemplate').text();
@@ -71,13 +72,12 @@ function homeController() {
                        $('#addToCart').on('click', function (event) {
                             
                         event.preventDefault();
-                        console.log(response);
+                        
                         var quantity = parseInt($('#productQuantity').val());
-                        console.log(quantity);
+                  
                         if (sessionStorage.getItem('loggedUser') != null) {
                             var user = JSON.parse(sessionStorage.getItem('loggedUser'));
-                            console.log(user);
-             
+                            
                             cartStorage.addCartItem(response, quantity);
                         } else {
                             alert('Трябва да се логнете, за да добавите продукт в кошницата!');
@@ -120,7 +120,7 @@ function itemController(title) {
         
         event.preventDefault();
         var quantity = parseInt($('#productQuantity').val());
-        console.log(quantity);
+      
         if (sessionStorage.getItem('loggedUser') != null) {
             var userId = JSON.parse(sessionStorage.getItem('loggedUser')).id;
             cartStorage.addCartItem(product, quantity);

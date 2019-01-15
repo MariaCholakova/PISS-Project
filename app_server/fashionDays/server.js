@@ -132,7 +132,6 @@ app.put('/purchase', async (req, res) =>{
         return res.send([errors.NO_ERROR, "Order was successful."]); 
     }
     catch (err){
-        console.log(err);
         res.send([errors.DB_ERROR, err]);
     }
 });
