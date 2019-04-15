@@ -4,12 +4,10 @@
   "description": "A small shopping website",
   "main": "server.js",
   "dependencies": {
-    "angular": "^1.7.5",
-    "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "express": "^4.16.1",
+    "express":"^4.16.4",
     "mysql": "^2.16.0",
-    "sha1": "^1.1.1",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "sha1":"1.1.1"
   }
 }
